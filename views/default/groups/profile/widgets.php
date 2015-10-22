@@ -27,8 +27,11 @@ foreach ($tool_options as $option) {
 
 $button = '';
 if ($tab !== 'activity') {
+	// The tool name and content type name are different for discussions
+	$type = $tab == 'forum' ? 'discussion' : $tab;
+
 	$button = elgg_view('output/url', array(
-		'href' => "{$tab}/add/{$group->guid}",
+		'href' => "{$type}/add/{$group->guid}",
 		'class' => 'elgg-button elgg-button-submit',
 		'text' => elgg_echo("{$tab}:add"),
 	));
