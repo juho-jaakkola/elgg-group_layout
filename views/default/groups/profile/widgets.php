@@ -4,25 +4,32 @@
  */
 
 $group = elgg_extract('entity', $vars);
-$tab = get_input('tab', 'activity');
+$tab = get_input('tab');
 
 $tool_options = elgg_get_config('group_tool_options');
 
 sort($tool_options);
 
-$tabs = array();
-
-$tools = array();
+$enabled_tools = array();
 foreach ($tool_options as $option) {
 	$option_name = "{$option->name}_enable";
 
-	if (isset($group->$option_name)) {
-		$tabs[] = array(
-			'text' => elgg_echo($option->name),
-			'href' => "groups/profile/{$group->guid}?tab={$option->name}",
-			'selected' => $tab == $option->name ? true : false,
-		);
+	if ($group->$option_name === 'yes') {
+		$enabled_tools[] = $option->name;
 	}
+}
+
+if ($tab === null) {
+	$tab = $enabled_tools[0];
+}
+
+$tabs = array();
+foreach ($enabled_tools as $tool) {
+	$tabs[] = array(
+		'text' => elgg_echo($tool),
+		'href' => "groups/profile/{$group->guid}?tab={$tool}",
+		'selected' => $tab == $tool ? true : false,
+	);
 }
 
 $button = '';
