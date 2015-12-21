@@ -25,6 +25,10 @@ if ($tab === null) {
 
 $tabs = array();
 foreach ($enabled_tools as $tool) {
+	if (!elgg_language_key_exists($tool)) {
+		continue;
+	}
+
 	$tabs[] = array(
 		'text' => elgg_echo($tool),
 		'href' => "groups/profile/{$group->guid}?tab={$tool}",
